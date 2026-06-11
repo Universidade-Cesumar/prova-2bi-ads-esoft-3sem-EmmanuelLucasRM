@@ -7,6 +7,11 @@ btnCadastrar.addEventListener('click', async () => {
     const nomeInformado = inputNome.value;
     const quantidadeInformada = inputQuantidade.value;
 
+    if (nomeInformado.trim() === '' || quantidadeInformada.trim() === '') {
+        alert('Todos os campos são obrigatórios.');
+        return;
+    }
+
     const novoMaterial = {
         nome: nomeInformado,
         quantidade: parseInt(quantidadeInformada)
