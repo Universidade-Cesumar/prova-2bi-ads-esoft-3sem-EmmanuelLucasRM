@@ -5,16 +5,16 @@ const listaMateriais = document.getElementById('lista-materiais');
 
 btnCadastrar.addEventListener('click', async () => {
     const nomeInformado = inputNome.value;
-    const quantidadeInformada = inputQuantidade.value;
+    const quantidadeInformada = inputQuantidade.valueAsNumber;
 
-    if (nomeInformado.trim() === '' || quantidadeInformada.trim() === '') {
+    if (nomeInformado.trim() === '' || isNaN(quantidadeInformada)) {
         alert('Todos os campos são obrigatórios.');
         return;
     }
 
     const novoMaterial = {
         nome: nomeInformado,
-        quantidade: parseInt(quantidadeInformada)
+        quantidade: quantidadeInformada
     };
 
     await fetch('https://6a29f3f8f59cb8f65f1ddcc3.mockapi.io/api/v1/materiais', {
