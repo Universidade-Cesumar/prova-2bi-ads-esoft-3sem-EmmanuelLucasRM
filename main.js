@@ -19,4 +19,23 @@ btnCadastrar.addEventListener('click', async () => {
         },
         body: JSON.stringify(novoMaterial)
     });
+
+    inputNome.value = '';
+    inputQuantidade.value = '';
 });
+
+async function consultarMateriais() {
+    const resposta = await fetch('https://6a29f3f8f59cb8f65f1ddcc3.mockapi.io/api/v1/materiais');
+    const dados = await resposta.json();
+
+    dados.forEach(material => {
+        listaMateriais.innerHTML += `
+        <tr>
+            <td>${material.nome}</td>
+            <td>${material.quantidade}</td>
+        </tr>
+    `;
+    });
+};
+
+consultarMateriais();
