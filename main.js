@@ -12,13 +12,20 @@ btnCadastrar.addEventListener('click', async () => {
         quantidade: parseInt(quantidadeInformada)
     };
 
-    const resposta = await fetch('https://6a29f3f8f59cb8f65f1ddcc3.mockapi.io/api/v1/materiais', {
+    await fetch('https://6a29f3f8f59cb8f65f1ddcc3.mockapi.io/api/v1/materiais', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify(novoMaterial)
     });
+
+    listaMateriais.innerHTML += `
+        <tr>
+            <td>${novoMaterial.nome}</td>
+            <td>${novoMaterial.quantidade}</td>
+        </tr>
+    `;
 
     inputNome.value = '';
     inputQuantidade.value = '';
