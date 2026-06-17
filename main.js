@@ -55,3 +55,11 @@ async function consultarMateriais() {
 };
 
 consultarMateriais();
+
+const meuModal = document.getElementById('modal-retirada');
+const btnCancelar = document.getElementById('btn-cancelar-baixa');
+const btnConfirmar = document.getElementById('btn-confirmar-baixa');
+
+btnCancelar.addEventListener('click', async () => {
+    meuModal.style.display = 'block';
+});
