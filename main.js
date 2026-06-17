@@ -49,6 +49,10 @@ async function consultarMateriais() {
         <tr>
             <td>${material.nome}</td>
             <td>${material.quantidade}</td>
+            <td>
+            <button class="btn-baixar" data-id="${material.id}">Baixar</button>
+            <button class="btn-excluir" data-id="${material.id}">Excluir</button>
+        </td>
         </tr>
     `;
     });
@@ -61,5 +65,19 @@ const btnCancelar = document.getElementById('btn-cancelar-baixa');
 const btnConfirmar = document.getElementById('btn-confirmar-baixa');
 
 btnCancelar.addEventListener('click', async () => {
-    meuModal.style.display = 'block';
+    meuModal.style.display = 'none';
+});
+
+document.addEventListener('click', (event) => {
+    if (event.target.classList.contains('btn-baixar')) {
+        const idMaterial = event.target.getAttribute('data-id');
+        console.log('Clicou em baixar o material com ID:', idMaterial);
+        
+        meuModal.style.display = 'block';
+    }
+
+    if (event.target.classList.contains('btn-excluir')) {
+        const idMaterial = event.target.getAttribute('data-id');
+        console.log('Clicou em excluir o material com ID:', idMaterial);
+    }
 });
