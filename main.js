@@ -29,6 +29,10 @@ btnCadastrar.addEventListener('click', async () => {
         <tr>
             <td>${novoMaterial.nome}</td>
             <td>${novoMaterial.quantidade}</td>
+            <td>
+            <button class="btn-baixar" data-id="${novoMaterial.id}">Baixar</button>
+            <button class="btn-excluir" data-id="${novoMaterial.id}">Excluir</button>
+        </td>
         </tr>
     `;
 
