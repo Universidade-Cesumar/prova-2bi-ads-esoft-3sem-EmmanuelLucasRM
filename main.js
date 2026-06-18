@@ -3,6 +3,7 @@ const inputQuantidade = document.getElementById('input-quantidade');
 const btnCadastrar = document.getElementById('btn-cadastrar');
 const listaMateriais = document.getElementById('lista-materiais');
 const inputRetirada = document.getElementById('input-retirada');
+let idMaterialSelecionado = null;
 
 btnCadastrar.addEventListener('click', async () => {
     const nomeInformado = inputNome.value;
@@ -71,8 +72,8 @@ btnCancelar.addEventListener('click', async () => {
 
 document.addEventListener('click', (event) => {
     if (event.target.classList.contains('btn-baixar')) {
-        const idMaterial = event.target.getAttribute('data-id');
-        console.log('Clicou em baixar o material com ID:', idMaterial);
+        idMaterialSelecionado = event.target.getAttribute('data-id');
+        console.log('Clicou em baixar o material com ID:', idMaterialSelecionado);
 
         meuModal.style.display = 'block';
     }
@@ -81,11 +82,6 @@ document.addEventListener('click', (event) => {
         const idMaterial = event.target.getAttribute('data-id');
         console.log('Clicou em excluir o material com ID:', idMaterial);
     }
-});
-
-btnConfirmar.addEventListener('click', async () => {
-    const quantidadeRetirada = inputRetirada.valueAsNumber;
-
 });
 
 function validarRetirada(estoqueAtual, quantidadeRetirada) {
@@ -101,3 +97,37 @@ function validarRetirada(estoqueAtual, quantidadeRetirada) {
 
     return true;
 }
+
+btnConfirmar.addEventListener('click', async () => {
+    const quantidadeRetirada = inputRetirada.valueAsNumber;
+
+    if (!idMaterialSelecionado) return;
+
+    const resposta = await fetch(`https://6a29f3f8f59cb8f65f1ddcc3.mockapi.io/api/v1/materiais/${idMaterialSelecionado}`);
+    const materialAtual = await resposta.json();
+
+    const ehValido = validarRetirada(materialAtual.quantidade, quantidadeRetirada);
+
+    if (ehValido) {
+        const novaQuantidade = materialAtual.quantidade - quantidadeRetirada;
+
+        await fetch(`https://6a29f3f8f59cb8f65f1ddcc3.mockapi.io/api/v1/materiais/${idMaterialSelecionado}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ quantidade: novaQuantidade })
+        });
+
+        meuModal.style.display = 'none';
+        inputRetirada.value = '';
+
+        listaMateriais.innerHTML = `
+            <tr>
+                <th>Material</th>
+                <th>Quantidade Atual</th>
+            </tr>
+        `;
+        consultarMateriais();
+    }
+});
