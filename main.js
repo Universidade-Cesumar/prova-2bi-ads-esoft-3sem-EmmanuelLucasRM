@@ -32,8 +32,8 @@ btnCadastrar.addEventListener('click', async () => {
             <td>${novoMaterial.nome}</td>
             <td>${novoMaterial.quantidade}</td>
             <td>
-            <button class="btn-baixar" data-id="${novoMaterial.id}">Baixar</button>
-            <button class="btn-excluir" data-id="${novoMaterial.id}">Excluir</button>
+            <button class="btn-baixar btn-acao btn-baixar-estilo" data-id="${novoMaterial.id}">Baixar</button>
+            <button class="btn-excluir btn-acao btn-excluir-estilo" data-id="${novoMaterial.id}">Excluir</button>
         </td>
         </tr>
     `;
@@ -52,9 +52,9 @@ async function consultarMateriais() {
             <td>${material.nome}</td>
             <td>${material.quantidade}</td>
             <td>
-            <button class="btn-baixar" data-id="${material.id}">Baixar</button>
-            <button class="btn-excluir" data-id="${material.id}">Excluir</button>
-        </td>
+            <button class="btn-baixar btn-acao btn-baixar-estilo" data-id="${material.id}">Baixar</button>
+            <button class="btn-excluir btn-acao btn-excluir-estilo" data-id="${material.id}">Excluir</button>
+            </td>
         </tr>
     `;
     });
@@ -75,7 +75,7 @@ document.addEventListener('click', async (event) => {
         idMaterialSelecionado = event.target.getAttribute('data-id');
         console.log('Clicou em baixar o material com ID:', idMaterialSelecionado);
 
-        meuModal.style.display = 'block';
+        meuModal.style.display = 'flex';
     }
 
     if (event.target.classList.contains('btn-excluir')) {
@@ -92,6 +92,7 @@ document.addEventListener('click', async (event) => {
             <tr>
                 <th>Material</th>
                 <th>Quantidade Atual</th>
+                <th>Ações</th>
             </tr>
         `;
 
@@ -141,8 +142,12 @@ btnConfirmar.addEventListener('click', async () => {
             <tr>
                 <th>Material</th>
                 <th>Quantidade Atual</th>
+                <th>Ações</th>
             </tr>
         `;
         consultarMateriais();
+
+        inputNome.value = '';
+        inputQuantidade.value = '';
     }
 });
