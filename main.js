@@ -2,6 +2,7 @@ const inputNome = document.getElementById('input-nome');
 const inputQuantidade = document.getElementById('input-quantidade');
 const btnCadastrar = document.getElementById('btn-cadastrar');
 const listaMateriais = document.getElementById('lista-materiais');
+const inputRetirada = document.getElementById('input-retirada');
 
 btnCadastrar.addEventListener('click', async () => {
     const nomeInformado = inputNome.value;
@@ -72,7 +73,7 @@ document.addEventListener('click', (event) => {
     if (event.target.classList.contains('btn-baixar')) {
         const idMaterial = event.target.getAttribute('data-id');
         console.log('Clicou em baixar o material com ID:', idMaterial);
-        
+
         meuModal.style.display = 'block';
     }
 
@@ -81,3 +82,22 @@ document.addEventListener('click', (event) => {
         console.log('Clicou em excluir o material com ID:', idMaterial);
     }
 });
+
+btnConfirmar.addEventListener('click', async () => {
+    const quantidadeRetirada = inputRetirada.valueAsNumber;
+
+});
+
+function validarRetirada(estoqueAtual, quantidadeRetirada) {
+    if (isNaN(quantidadeRetirada) || quantidadeRetirada <= 0) {
+        alert('Por favor, informe uma quantidade válida maior que zero.');
+        return false;
+    }
+
+    if (quantidadeRetirada > estoqueAtual) {
+        alert(`Estoque insuficiente! Você tentou retirar ${quantidadeRetirada}, mas temos apenas ${estoqueAtual} em estoque.`);
+        return false;
+    }
+
+    return true;
+}
