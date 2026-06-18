@@ -15,6 +15,19 @@ Nesta primeira sprint, focamos na construção da interface base e na persistên
 
 ---
 
+## 🏁 Sprint 2: Controle de Estoque Avançado e Refatoração Visual
+
+Nesta segunda sprint, avançamos na manipulação de dados na API com foco na segurança das operações de estoque e no aprimoramento da experiência visual do usuário.
+
+### 🚀 Funcionalidades Desenvolvidas
+* **📉 Baixa de Materiais (Modal):** Implementação de uma janela modal centralizada via `Flexbox` para informar a quantidade a ser retirada do estoque.
+* **🛡️ Validação de Retirada:** Regra de negócio que impede saídas com valores negativos, inválidos ou que superem a quantidade disponível em estoque.
+* **🗑️ Exclusão de Itens:** Integração do método `DELETE` para remover permanentemente os materiais direto da base de dados através da tabela.
+* **🔄 Sincronização e Métodos PUT:** Atualização parcial dos dados (quantidade) via método `PUT`, garantindo consistência e recarregando a tabela de forma dinâmica.
+* **🎨 Identidade Visual e UI:** Botões de ações estilizados com cores intuitivas (azul para ações principais e vermelho para perigo) e efeitos de transição (`hover`) ao passar o mouse.
+
+---
+
 ## 🛠️ Tecnologias Utilizadas
 
 * **HTML5:** Estruturação semântica da página, formulários e tabela.
