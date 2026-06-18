@@ -70,7 +70,7 @@ btnCancelar.addEventListener('click', async () => {
     meuModal.style.display = 'none';
 });
 
-document.addEventListener('click', (event) => {
+document.addEventListener('click', async (event) => {
     if (event.target.classList.contains('btn-baixar')) {
         idMaterialSelecionado = event.target.getAttribute('data-id');
         console.log('Clicou em baixar o material com ID:', idMaterialSelecionado);
@@ -81,6 +81,21 @@ document.addEventListener('click', (event) => {
     if (event.target.classList.contains('btn-excluir')) {
         const idMaterial = event.target.getAttribute('data-id');
         console.log('Clicou em excluir o material com ID:', idMaterial);
+
+        await fetch(`https://6a29f3f8f59cb8f65f1ddcc3.mockapi.io/api/v1/materiais/${idMaterial}`, {
+            method: 'DELETE'
+        });
+
+        console.log('Material deletado do banco com sucesso!');
+
+        listaMateriais.innerHTML = `
+            <tr>
+                <th>Material</th>
+                <th>Quantidade Atual</th>
+            </tr>
+        `;
+
+        consultarMateriais();
     }
 });
 
