@@ -17,6 +17,29 @@ function resetarTabela() {
     `;
 }
 
+function renderizarTabela(lista) {
+    resetarTabela();
+    document.getElementById('total-itens').innerText = lista.length;
+
+    lista.forEach(material => {
+        let classeAlerta = '';
+        if (material.quantidade < 10) {
+            classeAlerta = 'estoque-critico';
+        }
+
+        listaMateriais.innerHTML += `
+        <tr class="${classeAlerta}">
+            <td>${material.nome}</td>
+            <td>${material.quantidade}</td>
+            <td>
+                <button class="btn-baixar btn-acao btn-baixar-estilo" data-id="${material.id}">Baixar</button>
+                <button class="btn-excluir btn-acao btn-excluir-estilo" data-id="${material.id}">Excluir</button>
+            </td>
+        </tr>
+        `;
+    });
+}
+
 btnCadastrar.addEventListener('click', async () => {
     const nomeInformado = inputNome.value;
     const quantidadeInformada = inputQuantidade.valueAsNumber;
@@ -49,26 +72,10 @@ btnCadastrar.addEventListener('click', async () => {
 async function consultarMateriais() {
     const resposta = await fetch('https://6a29f3f8f59cb8f65f1ddcc3.mockapi.io/api/v1/materiais');
     const dados = await resposta.json();
-    document.getElementById('total-itens').innerText = dados.length;
 
-    dados.forEach(material => {
+    todosOsMateriais = dados;
 
-        let classeAlerta = '';
-        if (material.quantidade < 10) {
-            classeAlerta = 'estoque-critico';
-        }
-
-        listaMateriais.innerHTML += `
-        <tr class="${classeAlerta}">
-            <td>${material.nome}</td>
-            <td>${material.quantidade}</td>
-            <td>
-            <button class="btn-baixar btn-acao btn-baixar-estilo" data-id="${material.id}">Baixar</button>
-            <button class="btn-excluir btn-acao btn-excluir-estilo" data-id="${material.id}">Excluir</button>
-            </td>
-        </tr>
-    `;
-    });
+    renderizarTabela(todosOsMateriais);
 };
 
 consultarMateriais();
@@ -161,4 +168,14 @@ btnConfirmar.addEventListener('click', async () => {
         inputNome.value = '';
         inputQuantidade.value = '';
     }
+});
+
+inputBusca.addEventListener('input', () => {
+    const termoBusca = inputBusca.value.toLowerCase();
+    
+    const materiaisFiltrados = todosOsMateriais.filter(material => 
+        material.nome.toLowerCase().includes(termoBusca)
+    );
+
+    renderizarTabela(materiaisFiltrados);
 });
