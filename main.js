@@ -54,29 +54,39 @@ btnCadastrar.addEventListener('click', async () => {
         quantidade: quantidadeInformada
     };
 
-    await fetch('https://6a29f3f8f59cb8f65f1ddcc3.mockapi.io/api/v1/materiais', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(novoMaterial)
-    });
+    try {
+        await fetch('https://6a29f3f8f59cb8f65f1ddcc3.mockapi.io/api/v1/materiais', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(novoMaterial)
+        });
 
-    resetarTabela();
-    consultarMateriais();
+        resetarTabela();
+        consultarMateriais();
 
-    inputNome.value = '';
-    inputQuantidade.value = '';
+        inputNome.value = '';
+        inputQuantidade.value = '';
+    } catch (erro) {
+        console.error(erro);
+        alert('Erro ao cadastrar o material. Verifique sua conexão.');
+    }
 });
 
 async function consultarMateriais() {
-    const resposta = await fetch('https://6a29f3f8f59cb8f65f1ddcc3.mockapi.io/api/v1/materiais');
-    const dados = await resposta.json();
+    try {
+        const resposta = await fetch('https://6a29f3f8f59cb8f65f1ddcc3.mockapi.io/api/v1/materiais');
+        const dados = await resposta.json();
 
-    todosOsMateriais = dados;
+        todosOsMateriais = dados;
+        renderizarTabela(todosOsMateriais);
 
-    renderizarTabela(todosOsMateriais);
-};
+    } catch (erro) {
+        console.error(erro);
+        alert('Não foi possível carregar os materiais. Verifique sua conexão com a internet.');
+    }
+}
 
 consultarMateriais();
 
@@ -100,21 +110,17 @@ document.addEventListener('click', async (event) => {
         const idMaterial = event.target.getAttribute('data-id');
         console.log('Clicou em excluir o material com ID:', idMaterial);
 
-        await fetch(`https://6a29f3f8f59cb8f65f1ddcc3.mockapi.io/api/v1/materiais/${idMaterial}`, {
-            method: 'DELETE'
-        });
+        try {
+            await fetch(`https://6a29f3f8f59cb8f65f1ddcc3.mockapi.io/api/v1/materiais/${idMaterial}`, {
+                method: 'DELETE'
+            });
 
-        console.log('Material deletado do banco com sucesso!');
-
-        listaMateriais.innerHTML = `
-            <tr>
-                <th>Material</th>
-                <th>Quantidade Atual</th>
-                <th>Ações</th>
-            </tr>
-        `;
-
-        consultarMateriais();
+            console.log('Material deletado do banco com sucesso!');
+            consultarMateriais();
+        } catch (erro) {
+            console.error(erro);
+            alert('Não foi possível excluir o material. Verifique sua conexão.');
+        }
     }
 });
 
@@ -137,43 +143,41 @@ btnConfirmar.addEventListener('click', async () => {
 
     if (!idMaterialSelecionado) return;
 
-    const resposta = await fetch(`https://6a29f3f8f59cb8f65f1ddcc3.mockapi.io/api/v1/materiais/${idMaterialSelecionado}`);
-    const materialAtual = await resposta.json();
+    try {
+        const resposta = await fetch(`https://6a29f3f8f59cb8f65f1ddcc3.mockapi.io/api/v1/materiais/${idMaterialSelecionado}`);
+        const materialAtual = await resposta.json();
 
-    const ehValido = validarRetirada(materialAtual.quantidade, quantidadeRetirada);
+        const ehValido = validarRetirada(materialAtual.quantidade, quantidadeRetirada);
 
-    if (ehValido) {
-        const novaQuantidade = materialAtual.quantidade - quantidadeRetirada;
+        if (ehValido) {
+            const novaQuantidade = materialAtual.quantidade - quantidadeRetirada;
 
-        await fetch(`https://6a29f3f8f59cb8f65f1ddcc3.mockapi.io/api/v1/materiais/${idMaterialSelecionado}`, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ quantidade: novaQuantidade })
-        });
+            await fetch(`https://6a29f3f8f59cb8f65f1ddcc3.mockapi.io/api/v1/materiais/${idMaterialSelecionado}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ quantidade: novaQuantidade })
+            });
 
-        meuModal.style.display = 'none';
-        inputRetirada.value = '';
+            meuModal.style.display = 'none';
+            inputRetirada.value = '';
 
-        listaMateriais.innerHTML = `
-            <tr>
-                <th>Material</th>
-                <th>Quantidade Atual</th>
-                <th>Ações</th>
-            </tr>
-        `;
-        consultarMateriais();
+            consultarMateriais();
 
-        inputNome.value = '';
-        inputQuantidade.value = '';
+            inputNome.value = '';
+            inputQuantidade.value = '';
+        }
+    } catch (erro) {
+        console.error(erro);
+        alert('Erro ao processar a baixa do material. Verifique sua conexão.');
     }
 });
 
 inputBusca.addEventListener('input', () => {
     const termoBusca = inputBusca.value.toLowerCase();
-    
-    const materiaisFiltrados = todosOsMateriais.filter(material => 
+
+    const materiaisFiltrados = todosOsMateriais.filter(material =>
         material.nome.toLowerCase().includes(termoBusca)
     );
 
