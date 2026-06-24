@@ -218,3 +218,18 @@ td:last-child {
     text-align: center;
     white-space: nowrap;
 }
+
+.painel-dashboard {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+#input-busca {
+    width: 300px;
+    padding: 8px;
+    border: 1px solid var(--cor-borda);
+    border-radius: 4px;
+    outline: none;
+}
