@@ -39,16 +39,8 @@ btnCadastrar.addEventListener('click', async () => {
         body: JSON.stringify(novoMaterial)
     });
 
-    listaMateriais.innerHTML += `
-        <tr>
-            <td>${novoMaterial.nome}</td>
-            <td>${novoMaterial.quantidade}</td>
-            <td>
-            <button class="btn-baixar btn-acao btn-baixar-estilo" data-id="${novoMaterial.id}">Baixar</button>
-            <button class="btn-excluir btn-acao btn-excluir-estilo" data-id="${novoMaterial.id}">Excluir</button>
-        </td>
-        </tr>
-    `;
+    resetarTabela();
+    consultarMateriais();
 
     inputNome.value = '';
     inputQuantidade.value = '';
@@ -67,7 +59,7 @@ async function consultarMateriais() {
         }
 
         listaMateriais.innerHTML += `
-        <tr>
+        <tr class="${classeAlerta}">
             <td>${material.nome}</td>
             <td>${material.quantidade}</td>
             <td>
