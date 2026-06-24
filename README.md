@@ -1,5 +1,8 @@
 # 🏥 Almoxarifado de Materiais de Saúde
 
+> **🔴 ACESSO AO SISTEMA AO VIVO:** > 👉 **[CLIQUE AQUI PARA TESTAR A APLICAÇÃO](https://seu-usuario.github.io/seu-repositorio/)** 👈  
+*(Lembre-se de substituir o link acima pelo link real do seu GitHub Pages)*
+
 Sistema web para controle e gerenciamento de estoque de insumos hospitalares, desenvolvido para otimizar o dia a dia da equipe de enfermagem.
 
 ---
@@ -25,6 +28,19 @@ Nesta segunda sprint, avançamos na manipulação de dados na API com foco na se
 * **🗑️ Exclusão de Itens:** Integração do método `DELETE` para remover permanentemente os materiais direto da base de dados através da tabela.
 * **🔄 Sincronização e Métodos PUT:** Atualização parcial dos dados (quantidade) via método `PUT`, garantindo consistência e recarregando a tabela de forma dinâmica.
 * **🎨 Identidade Visual e UI:** Botões de ações estilizados com cores intuitivas (azul para ações principais e vermelho para perigo) e efeitos de transição (`hover`) ao passar o mouse.
+
+---
+
+## 🏁 Sprint 3: Dashboard, Busca Reativa e Resiliência
+
+Nesta sprint final, o foco foi a entrega do produto maduro: implementamos inteligência de busca, monitoramento de escassez, proteção contra quedas de rede e a publicação da aplicação ao vivo.
+
+### 🚀 Funcionalidades Desenvolvidas
+* **🔍 Busca ao Vivo (`#input-busca`):** Filtro de insumos reativo ao evento `input`, re-renderizando a tabela instantaneamente a cada letra digitada através do método `.filter()`.
+* **📊 Painel de Totalização (`#total-itens`):** Contador dinâmico atrelado ao tamanho do array em exibição, refletindo o total de itens cadastrados (ou filtrados) em tempo real.
+* **🚨 Alerta de Estoque Crítico (`.estoque-critico`):** Injeção automatizada de classe e destaque visual (fundo avermelhado) em produtos cujo saldo caia para menos de 10 unidades.
+* **🛡️ Tratamento de Exceções (`try/catch`):** Encapsulamento de todos os verbos HTTP (`GET`, `POST`, `PUT`, `DELETE`) para capturar quedas de internet ou falhas no servidor, trocando o congelamento de tela por feedbacks visuais amigáveis.
+* **☁️ Deploy e Publicação:** Disponibilização do ambiente de produção contínuo através do GitHub Pages.
 
 ---
 
