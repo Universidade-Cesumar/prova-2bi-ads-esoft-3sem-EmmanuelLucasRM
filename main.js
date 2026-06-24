@@ -3,7 +3,19 @@ const inputQuantidade = document.getElementById('input-quantidade');
 const btnCadastrar = document.getElementById('btn-cadastrar');
 const listaMateriais = document.getElementById('lista-materiais');
 const inputRetirada = document.getElementById('input-retirada');
+const inputBusca = document.getElementById('input-busca');
 let idMaterialSelecionado = null;
+let todosOsMateriais = [];
+
+function resetarTabela() {
+    listaMateriais.innerHTML = `
+        <tr>
+            <th>Material</th>
+            <th>Quantidade Atual</th>
+            <th>Ações</th>
+        </tr>
+    `;
+}
 
 btnCadastrar.addEventListener('click', async () => {
     const nomeInformado = inputNome.value;
@@ -45,8 +57,15 @@ btnCadastrar.addEventListener('click', async () => {
 async function consultarMateriais() {
     const resposta = await fetch('https://6a29f3f8f59cb8f65f1ddcc3.mockapi.io/api/v1/materiais');
     const dados = await resposta.json();
+    document.getElementById('total-itens').innerText = dados.length;
 
     dados.forEach(material => {
+
+        let classeAlerta = '';
+        if (material.quantidade < 10) {
+            classeAlerta = 'estoque-critico';
+        }
+
         listaMateriais.innerHTML += `
         <tr>
             <td>${material.nome}</td>

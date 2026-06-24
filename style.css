@@ -233,3 +233,7 @@ td:last-child {
     border-radius: 4px;
     outline: none;
 }
+
+.estoque-critico {
+    background-color: #ffdad6;
+}
